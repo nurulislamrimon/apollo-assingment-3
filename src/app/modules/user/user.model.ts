@@ -4,7 +4,7 @@ import IUser from "./user.interfaces";
 const userSchema = new mongoose.Schema<IUser>(
   {
     phoneNumber: { type: String, required: true },
-    role: { type: String, required: true },
+    role: { type: String, enum: ["buyer", "seller"], required: true },
     password: { type: String, required: true },
     name: {
       firstName: { type: String, required: true },
