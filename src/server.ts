@@ -6,7 +6,7 @@ import config from "./config/env_config";
 
 const boostrap = async () => {
   try {
-    await mongoose.connect(config.db_local as string);
+    await mongoose.connect(config.db_remote as string);
     console.log("Database connection successful!");
 
     app.listen(config.port, () => {
