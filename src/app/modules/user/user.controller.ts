@@ -62,7 +62,23 @@ export const updateAUsersController: RequestHandler = catchAsync(
     sendResponse<Partial<IUser>>(res, {
       success: true,
       statusCode: StatusCodes.OK,
-      message: "User responsed!",
+      message: "User updated successfully!",
+      data: result,
+    });
+  }
+);
+export const deleteAUsersController: RequestHandler = catchAsync(
+  async (req, res) => {
+    const userId = new Types.ObjectId(req.params.id);
+    const isUserExist = await userServices.getAUserByIdService(userId);
+    if (!isUserExist) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id");
+    }
+    const result = await userServices.deleteAUserByIdService(userId);
+    sendResponse<Partial<IUser>>(res, {
+      success: true,
+      statusCode: StatusCodes.OK,
+      message: "User deleted successfully!",
       data: result,
     });
   }

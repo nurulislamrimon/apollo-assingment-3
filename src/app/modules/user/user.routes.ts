@@ -12,5 +12,6 @@ router.patch(
   validateRequest(userUpdateZodSchema),
   userController.updateAUsersController
 );
+router.delete("/:id", userController.deleteAUsersController);
 
 export const userRoutes = router;

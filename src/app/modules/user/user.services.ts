@@ -47,3 +47,7 @@ export const updateAUserByIdService = async (
   );
   return result;
 };
+export const deleteAUserByIdService = async (id: Types.ObjectId) => {
+  const result = await User.findByIdAndDelete(id);
+  return result;
+};
