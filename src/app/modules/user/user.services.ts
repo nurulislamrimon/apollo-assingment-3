@@ -36,3 +36,14 @@ export const getAUserByIdService = async (id: Types.ObjectId) => {
   const result = await User.findOne({ _id: id });
   return result;
 };
+export const updateAUserByIdService = async (
+  id: Types.ObjectId,
+  payload: Partial<IUser>
+) => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    { $set: payload },
+    { new: true }
+  );
+  return result;
+};
