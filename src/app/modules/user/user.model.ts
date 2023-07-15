@@ -19,6 +19,13 @@ const userSchema = new mongoose.Schema<IUser>(
   }
 );
 
+userSchema.pre("save", function (next) {
+  if (this.role !== "buyer") {
+    this.budget = 0;
+  }
+  next();
+});
+
 const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;

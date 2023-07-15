@@ -11,15 +11,15 @@ app.use(cors());
 // parser
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
-
+// initial route
 app.get("/", (req, res) => {
   res.send({
     success: true,
     message: "Welcome to Cow hat!",
   });
 });
-
-app.use(router);
+// all routes
+app.use("/api/v1", router);
 
 // global error handler
 app.use(globalErrorHandler);

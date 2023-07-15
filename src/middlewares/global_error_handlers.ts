@@ -1,6 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import config from "../config/env_config";
 import { handleValidationError } from "../errors/handle_validation_error";
+import ApiError from "../errors/api_error";
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = 500;
@@ -12,6 +13,15 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = validationError.statusCode;
     message = validationError.message;
     errorMessages = validationError.errorMessages;
+  } else if (error instanceof ApiError) {
+    statusCode = error.statusCode;
+    message = error.message;
+    errorMessages = [
+      {
+        path: "",
+        message: error.message,
+      },
+    ];
   } else if (error instanceof Error) {
     message = error.message;
     errorMessages = [
