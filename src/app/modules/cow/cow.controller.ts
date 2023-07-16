@@ -14,12 +14,14 @@ export const createNewCowController: RequestHandler = catchAsync(
     );
 
     req.body.seller = seller;
+
     const result = await cowServices.createNewCowService(req.body);
 
     sendResponse<ICow>(res, {
       success: true,
       statusCode: StatusCodes.OK,
       data: result,
+      // data: req.body,
     });
   }
 );

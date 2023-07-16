@@ -40,10 +40,11 @@ const cowSchema = new mongoose.Schema<ICow>(
 
 cowSchema.pre("save", async function (next) {
   const isSellerExist = await getAUserByIdService(this.seller);
+
   if (!isSellerExist || isSellerExist.role !== "seller") {
     const err = new ApiError(
       StatusCodes.NOT_ACCEPTABLE,
-      "Invalid seller information!"
+      "Please provide a valid seller id!"
     );
     next(err);
   }

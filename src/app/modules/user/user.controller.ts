@@ -43,6 +43,9 @@ export const getAUsersController: RequestHandler = catchAsync(
   async (req, res) => {
     const userId = new Types.ObjectId(req.params.id);
     const result = await userServices.getAUserByIdService(userId);
+    if (!result) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id!");
+    }
     sendResponse<IUser>(res, {
       success: true,
       statusCode: StatusCodes.OK,
