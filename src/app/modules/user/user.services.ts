@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import IUser, { IUserFilters } from "./user.interfaces";
+import IUser from "./user.interfaces";
 import User from "./user.model";
 import { IPaginationOptions } from "../../../interfaces/pagination.interface";
 import { userSearchableFields } from "./user.constants";
@@ -7,22 +7,23 @@ import {
   paginationControll,
   filtersAndSearchControll,
 } from "../../../shared/whereconditions";
+import { IFilters } from "../../../interfaces/filter.interface";
 
 export const getAllUsersService = async (
-  filters: IUserFilters,
+  filters: IFilters,
   pagination: IPaginationOptions
 ) => {
   const conditions = filtersAndSearchControll(filters, userSearchableFields);
   const { sort, limit, page, skip } = paginationControll(pagination);
 
   const user = await User.find(conditions).sort(sort).skip(skip).limit(limit);
-  const totalDocuments = await User.countDocuments(conditions);
+  const count = await User.countDocuments(conditions);
 
   return {
     meta: {
       limit,
       page,
-      totalDocuments,
+      count,
     },
     user,
   };

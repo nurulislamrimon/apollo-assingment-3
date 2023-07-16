@@ -40,3 +40,17 @@ export const cowZodSchema = z.object({
     }),
   }),
 });
+
+export const updateCowZodSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    age: z.number().optional(),
+    price: z.number().optional(),
+    location: z.enum(cowLocations).optional(),
+    breed: z.string().optional(),
+    weight: z.number().optional(),
+    label: z.enum(cowLabel).optional(),
+    category: z.enum(cowCategory).optional(),
+    seller: z.string().optional(),
+  }),
+});

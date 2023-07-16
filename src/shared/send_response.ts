@@ -6,7 +6,7 @@ interface ISendResponse<T> {
   meta?: {
     page: number;
     limit: number;
-    totalDocuments: number;
+    count: number;
   };
   data?: T | null;
 }

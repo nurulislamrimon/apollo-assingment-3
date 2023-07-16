@@ -13,8 +13,4 @@ interface IUser {
   income: number;
 }
 
-export interface IUserFilters {
-  searchTerm?: string;
-}
-
 export default IUser;
