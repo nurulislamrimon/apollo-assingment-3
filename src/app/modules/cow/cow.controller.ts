@@ -16,6 +16,7 @@ export const createNewCowController: RequestHandler = catchAsync(
       sellerId.includes("ObjectId") ? sellerId.slice(9, 33) : sellerId
     );
     req.body.seller = seller;
+
     const result = await cowServices.createNewCowService(req.body);
     sendResponse<ICow>(res, {
       success: true,
@@ -41,7 +42,7 @@ export const getAllCowController: RequestHandler = catchAsync(
 export const getACowController: RequestHandler = catchAsync(
   async (req, res) => {
     const cowId = new Types.ObjectId(req.params.id);
-    const result = await cowServices.getACowService(cowId);
+    const result = await cowServices.getACowByIdService(cowId);
     if (!result) {
       throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id!");
     }
@@ -62,7 +63,7 @@ export const updateACowController: RequestHandler = catchAsync(
     );
     req.body.seller = seller;
     const cowId = new Types.ObjectId(req.params.id);
-    const isCowExist = await cowServices.getACowService(cowId);
+    const isCowExist = await cowServices.getACowByIdService(cowId);
     if (!isCowExist) {
       throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
     }
@@ -79,7 +80,7 @@ export const updateACowController: RequestHandler = catchAsync(
 export const deleteACowController: RequestHandler = catchAsync(
   async (req, res) => {
     const cowId = new Types.ObjectId(req.params.id);
-    const isCowExist = await cowServices.getACowService(cowId);
+    const isCowExist = await cowServices.getACowByIdService(cowId);
     if (!isCowExist) {
       throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
     }

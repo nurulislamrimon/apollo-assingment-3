@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAUserByIdService = exports.createNewUserService = exports.getAllUsersService = void 0;
+exports.deleteAUserByIdService = exports.updateAUserByIdService = exports.getAUserByIdService = exports.createNewUserService = exports.getAllUsersService = void 0;
 const user_model_1 = __importDefault(require("./user.model"));
 const user_constants_1 = require("./user.constants");
 const whereconditions_1 = require("../../../shared/whereconditions");
@@ -20,12 +20,12 @@ const getAllUsersService = (filters, pagination) => __awaiter(void 0, void 0, vo
     const conditions = (0, whereconditions_1.filtersAndSearchControll)(filters, user_constants_1.userSearchableFields);
     const { sort, limit, page, skip } = (0, whereconditions_1.paginationControll)(pagination);
     const user = yield user_model_1.default.find(conditions).sort(sort).skip(skip).limit(limit);
-    const totalDocuments = yield user_model_1.default.countDocuments(conditions);
+    const count = yield user_model_1.default.countDocuments(conditions);
     return {
         meta: {
             limit,
             page,
-            totalDocuments,
+            count,
         },
         user,
     };
@@ -41,3 +41,13 @@ const getAUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 exports.getAUserByIdService = getAUserByIdService;
+const updateAUserByIdService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.default.findByIdAndUpdate(id, { $set: payload }, { new: true });
+    return result;
+});
+exports.updateAUserByIdService = updateAUserByIdService;
+const deleteAUserByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.default.findByIdAndDelete(id);
+    return result;
+});
+exports.deleteAUserByIdService = deleteAUserByIdService;

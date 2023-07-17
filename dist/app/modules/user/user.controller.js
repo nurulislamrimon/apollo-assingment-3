@@ -35,14 +35,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewUserController = exports.getAllUsersController = void 0;
+exports.deleteAUsersController = exports.updateAUsersController = exports.getAUsersController = exports.createNewUserController = exports.getAllUsersController = void 0;
+const http_status_codes_1 = require("http-status-codes");
+const mongoose_1 = require("mongoose");
 const userServices = __importStar(require("./user.services"));
 const send_response_1 = require("../../../shared/send_response");
-const http_status_codes_1 = require("http-status-codes");
 const catch_async_1 = require("../../../shared/catch_async");
 const user_constants_1 = require("./user.constants");
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const pagination_static_1 = require("../../../statics/pagination.static");
+const api_error_1 = __importDefault(require("../../../errors/api_error"));
 exports.getAllUsersController = (0, catch_async_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filters = (0, pick_1.default)(req.query, user_constants_1.userFilterableFields);
     const pagination = (0, pick_1.default)(req.query, pagination_static_1.paginationFields);
@@ -61,6 +63,47 @@ exports.createNewUserController = (0, catch_async_1.catchAsync)((req, res) => __
         success: true,
         statusCode: http_status_codes_1.StatusCodes.OK,
         message: "Users created successfully",
+        data: result,
+    });
+}));
+exports.getAUsersController = (0, catch_async_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = new mongoose_1.Types.ObjectId(req.params.id);
+    const result = yield userServices.getAUserByIdService(userId);
+    if (!result) {
+        throw new api_error_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "Invalid user id!");
+    }
+    (0, send_response_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: "User responsed!",
+        data: result,
+    });
+}));
+exports.updateAUsersController = (0, catch_async_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = new mongoose_1.Types.ObjectId(req.params.id);
+    const isUserExist = yield userServices.getAUserByIdService(userId);
+    if (!isUserExist) {
+        throw new api_error_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "Invalid user id");
+    }
+    const result = yield userServices.updateAUserByIdService(userId, req.body);
+    (0, send_response_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: "User updated successfully!",
+        data: result,
+    });
+}));
+exports.deleteAUsersController = (0, catch_async_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = new mongoose_1.Types.ObjectId(req.params.id);
+    const isUserExist = yield userServices.getAUserByIdService(userId);
+    if (!isUserExist) {
+        throw new api_error_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "Invalid user id");
+    }
+    const result = yield userServices.deleteAUserByIdService(userId);
+    (0, send_response_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: "User deleted successfully!",
         data: result,
     });
 }));

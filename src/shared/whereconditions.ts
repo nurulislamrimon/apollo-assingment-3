@@ -1,10 +1,10 @@
 import { SortOrder } from "mongoose";
-import { IUserFilters } from "../app/modules/user/user.interfaces";
 import { IPaginationOptions } from "../interfaces/pagination.interface";
 import { paginationFields } from "../statics/pagination.static";
+import { IFilters } from "../interfaces/filter.interface";
 
 export const filtersAndSearchControll = (
-  filter: IUserFilters,
+  filter: IFilters,
   searchableFields: string[]
 ) => {
   const andConditions = [];

@@ -32,7 +32,7 @@ export const getAllCowService = async (
   };
 };
 
-export const getACowService = async (id: Types.ObjectId) => {
+export const getACowByIdService = async (id: Types.ObjectId) => {
   const result = await Cow.findOne({ _id: id });
   return result;
 };

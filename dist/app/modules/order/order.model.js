@@ -22,18 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userRoutes = void 0;
-const express_1 = __importDefault(require("express"));
-const userController = __importStar(require("./user.controller"));
-const validate_request_1 = require("../../../middlewares/validate_request");
-const user_validation_1 = require("./user.validation");
-const router = express_1.default.Router();
-router.get("/", userController.getAllUsersController);
-router.get("/:id", userController.getAUsersController);
-router.patch("/:id", (0, validate_request_1.validateRequest)(user_validation_1.userUpdateZodSchema), userController.updateAUsersController);
-router.delete("/:id", userController.deleteAUsersController);
-exports.userRoutes = router;
+const mongoose_1 = __importStar(require("mongoose"));
+const orderSchema = new mongoose_1.default.Schema({
+    trxId: { type: String, required: true },
+    cow: mongoose_1.Types.ObjectId,
+    buyer: mongoose_1.Types.ObjectId,
+    price: { type: Number, required: true },
+}, {
+    timestamps: true,
+});
+const Order = mongoose_1.default.model("Order", orderSchema);
+exports.default = Order;

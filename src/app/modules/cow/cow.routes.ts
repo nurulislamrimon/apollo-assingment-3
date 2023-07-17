@@ -5,17 +5,19 @@ import { cowZodSchema, updateCowZodSchema } from "./cow.validator";
 
 const router = express.Router();
 
+router.get("/", cowController.getAllCowController);
 router.post(
   "/",
   validateRequest(cowZodSchema),
   cowController.createNewCowController
 );
 
-router.get("/", cowController.getAllCowController);
+router.get("/:id", cowController.getACowController);
 router.patch(
   "/:id",
   validateRequest(updateCowZodSchema),
   cowController.updateACowController
 );
+router.delete("/:id", cowController.deleteACowController);
 
 export const cowRoutes = router;

@@ -73,7 +73,7 @@ cowSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const isSellerExist = yield (0, user_services_1.getAUserByIdService)(this.seller);
         if (!isSellerExist || isSellerExist.role !== "seller") {
-            const err = new api_error_1.default(http_status_codes_1.StatusCodes.NOT_ACCEPTABLE, "Invalid seller information!");
+            const err = new api_error_1.default(http_status_codes_1.StatusCodes.NOT_ACCEPTABLE, "Please provide a valid seller id!");
             next(err);
         }
         next();
